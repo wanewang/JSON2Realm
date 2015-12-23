@@ -39,9 +39,9 @@ class JSON2RealmTests: XCTestCase {
             "age": 50
         ]
         do {
-            let mappedBasic1 = try BasicClass.mappedInstance(dict)
-            let mappedBasic2 = try BasicClass.mappedInstance(dict2)
-            let emptyBadic = BasicClass.init()
+            let mappedBasic1 = try GenomeClass.mappedInstance(dict)
+            let mappedBasic2 = try GenomeClass.mappedInstance(dict2)
+            let emptyBadic = GenomeClass.init()
             try self.realm.write { () -> Void in
                 self.realm.add(mappedBasic1)
                 self.realm.add(mappedBasic2)
@@ -52,7 +52,7 @@ class JSON2RealmTests: XCTestCase {
         } catch {
             XCTFail("realm save object error")
         }
-        let results = self.realm.objects(BasicClass)
+        let results = self.realm.objects(GenomeClass)
         let test = Array(results)
         XCTAssert(test.count == 3)
         if let last = test.last {
@@ -75,9 +75,9 @@ class JSON2RealmTests: XCTestCase {
             "distance": 13
         ]
         do {
-            let mappedBasic1 = try BasicOptionalClass.mappedInstance(dict)
-            let mappedBasic2 = try BasicOptionalClass.mappedInstance(dict2)
-            let emptyBadic = BasicOptionalClass.init()
+            let mappedBasic1 = try OptionalGenomeClass.mappedInstance(dict)
+            let mappedBasic2 = try OptionalGenomeClass.mappedInstance(dict2)
+            let emptyBadic = OptionalGenomeClass.init()
             try self.realm.write { () -> Void in
                 self.realm.add(mappedBasic1)
                 self.realm.add(mappedBasic2)
@@ -88,7 +88,7 @@ class JSON2RealmTests: XCTestCase {
         } catch {
             XCTFail("realm save object error")
         }
-        let results = self.realm.objects(BasicOptionalClass)
+        let results = self.realm.objects(OptionalGenomeClass)
         let test = Array(results)
         XCTAssert(test.count == 3)
         if let last = test.last {

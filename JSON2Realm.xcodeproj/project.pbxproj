@@ -14,7 +14,7 @@
 		E3C500B11C29A4EB00789E53 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E3C500B01C29A4EB00789E53 /* Assets.xcassets */; };
 		E3C500B41C29A4EB00789E53 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E3C500B21C29A4EB00789E53 /* LaunchScreen.storyboard */; };
 		E3C500BF1C29A4EB00789E53 /* JSON2RealmTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C500BE1C29A4EB00789E53 /* JSON2RealmTests.swift */; };
-		E3C500CA1C29A6D100789E53 /* RealmModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C500C91C29A6D100789E53 /* RealmModel.swift */; };
+		E3C500CA1C29A6D100789E53 /* GenomeRealm.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C500C91C29A6D100789E53 /* GenomeRealm.swift */; };
 		E3EC9CE11C29ABAD00752081 /* Pods_JSON2RealmTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3EC9CE01C29ABAD00752081 /* Pods_JSON2RealmTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -40,7 +40,7 @@
 		E3C500BA1C29A4EB00789E53 /* JSON2RealmTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JSON2RealmTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E3C500BE1C29A4EB00789E53 /* JSON2RealmTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSON2RealmTests.swift; sourceTree = "<group>"; };
 		E3C500C01C29A4EB00789E53 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E3C500C91C29A6D100789E53 /* RealmModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmModel.swift; sourceTree = "<group>"; };
+		E3C500C91C29A6D100789E53 /* GenomeRealm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenomeRealm.swift; sourceTree = "<group>"; };
 		E3EC9CDC1C29AAAB00752081 /* Pods.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods.framework; path = "Pods/../build/Debug-iphoneos/Pods.framework"; sourceTree = "<group>"; };
 		E3EC9CDE1C29AB4400752081 /* Pods.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods.framework; path = "Pods/../build/Debug-iphoneos/Pods.framework"; sourceTree = "<group>"; };
 		E3EC9CE01C29ABAD00752081 /* Pods_JSON2RealmTests.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods_JSON2RealmTests.framework; path = "Pods/../build/Debug-iphoneos/Pods_JSON2RealmTests.framework"; sourceTree = "<group>"; };
@@ -88,6 +88,21 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		E32E53871C2AE4F900A30963 /* ObjectMapper */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = ObjectMapper;
+			sourceTree = "<group>";
+		};
+		E37DB35E1C2AE4C400FFE862 /* Genome */ = {
+			isa = PBXGroup;
+			children = (
+				E3C500C91C29A6D100789E53 /* GenomeRealm.swift */,
+			);
+			name = Genome;
+			sourceTree = "<group>";
+		};
 		E3C5009D1C29A4EB00789E53 = {
 			isa = PBXGroup;
 			children = (
@@ -124,9 +139,10 @@
 		E3C500BD1C29A4EB00789E53 /* JSON2RealmTests */ = {
 			isa = PBXGroup;
 			children = (
+				E32E53871C2AE4F900A30963 /* ObjectMapper */,
+				E37DB35E1C2AE4C400FFE862 /* Genome */,
 				E3C500BE1C29A4EB00789E53 /* JSON2RealmTests.swift */,
 				E3C500C01C29A4EB00789E53 /* Info.plist */,
-				E3C500C91C29A6D100789E53 /* RealmModel.swift */,
 			);
 			path = JSON2RealmTests;
 			sourceTree = "<group>";
@@ -261,7 +277,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E3C500BF1C29A4EB00789E53 /* JSON2RealmTests.swift in Sources */,
-				E3C500CA1C29A6D100789E53 /* RealmModel.swift in Sources */,
+				E3C500CA1C29A6D100789E53 /* GenomeRealm.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,5 +1,5 @@
 //
-//  RealmModel.swift
+//  GenomeRealm.swift
 //  JSON2Realm
 //
 //  Created by Wane Wang on 2015/12/22.
@@ -10,7 +10,7 @@ import Foundation
 import Genome
 import RealmSwift
 
-class BasicClass: Object, StandardMappable {
+class GenomeClass: Object, StandardMappable {
     dynamic var name: String = ""
     dynamic var birthday: String = ""
     dynamic var age: Int = 0
@@ -32,7 +32,7 @@ class BasicClass: Object, StandardMappable {
     
 }
 
-class BasicOptionalClass: Object, StandardMappable {
+class OptionalGenomeClass: Object, StandardMappable {
     var distance = RealmOptional<Int>()
     dynamic var note: String? = nil
     
