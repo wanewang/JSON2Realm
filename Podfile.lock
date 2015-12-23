@@ -1,5 +1,6 @@
 PODS:
   - Genome (1.0.8)
+  - ObjectMapper (1.0.1)
   - Realm (0.97.0):
     - Realm/Headers (= 0.97.0)
   - Realm/Headers (0.97.0)
@@ -8,11 +9,13 @@ PODS:
 
 DEPENDENCIES:
   - Genome
+  - ObjectMapper
   - Realm
   - RealmSwift
 
 SPEC CHECKSUMS:
   Genome: 20d8aa7b63728553aab26fef53ea8570a71ce2f1
+  ObjectMapper: 98524bac0dca46c6b3d5ee02cd410fc700ec6ce2
   Realm: b498a6fb9d288b171ff98d0e2d4384c295be8990
   RealmSwift: d014810dec75c9a3f1a33926d2dabfed855c582c
 

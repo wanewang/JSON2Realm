@@ -7,7 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		B794E6CF1F0D95E94FBF8BDA /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E438E13DFAA65EB9B9ADE059 /* Pods.framework */; };
+		BA8BCF443D1B355917BB9FEE /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9BD7E08357DB8EDB33919C3 /* Pods.framework */; };
+		E32E53891C2AF4DE00A30963 /* ObjectMapperRealm.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32E53881C2AF4DE00A30963 /* ObjectMapperRealm.swift */; };
+		E32E538B1C2AF55C00A30963 /* BasicRealm.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32E538A1C2AF55C00A30963 /* BasicRealm.swift */; };
 		E3C500AA1C29A4EB00789E53 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C500A91C29A4EB00789E53 /* AppDelegate.swift */; };
 		E3C500AC1C29A4EB00789E53 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C500AB1C29A4EB00789E53 /* ViewController.swift */; };
 		E3C500AF1C29A4EB00789E53 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E3C500AD1C29A4EB00789E53 /* Main.storyboard */; };
@@ -30,6 +32,9 @@
 
 /* Begin PBXFileReference section */
 		97571CD84ACC12277F2C6C4C /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		D9BD7E08357DB8EDB33919C3 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E32E53881C2AF4DE00A30963 /* ObjectMapperRealm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObjectMapperRealm.swift; sourceTree = "<group>"; };
+		E32E538A1C2AF55C00A30963 /* BasicRealm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicRealm.swift; sourceTree = "<group>"; };
 		E3C500A61C29A4EB00789E53 /* JSON2Realm.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JSON2Realm.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E3C500A91C29A4EB00789E53 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E3C500AB1C29A4EB00789E53 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -41,10 +46,7 @@
 		E3C500BE1C29A4EB00789E53 /* JSON2RealmTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSON2RealmTests.swift; sourceTree = "<group>"; };
 		E3C500C01C29A4EB00789E53 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E3C500C91C29A6D100789E53 /* GenomeRealm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenomeRealm.swift; sourceTree = "<group>"; };
-		E3EC9CDC1C29AAAB00752081 /* Pods.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods.framework; path = "Pods/../build/Debug-iphoneos/Pods.framework"; sourceTree = "<group>"; };
-		E3EC9CDE1C29AB4400752081 /* Pods.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods.framework; path = "Pods/../build/Debug-iphoneos/Pods.framework"; sourceTree = "<group>"; };
 		E3EC9CE01C29ABAD00752081 /* Pods_JSON2RealmTests.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods_JSON2RealmTests.framework; path = "Pods/../build/Debug-iphoneos/Pods_JSON2RealmTests.framework"; sourceTree = "<group>"; };
-		E438E13DFAA65EB9B9ADE059 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F91F98F14F65280A17A70CE8 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -53,7 +55,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B794E6CF1F0D95E94FBF8BDA /* Pods.framework in Frameworks */,
+				BA8BCF443D1B355917BB9FEE /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -81,9 +83,7 @@
 			isa = PBXGroup;
 			children = (
 				E3EC9CE01C29ABAD00752081 /* Pods_JSON2RealmTests.framework */,
-				E3EC9CDE1C29AB4400752081 /* Pods.framework */,
-				E3EC9CDC1C29AAAB00752081 /* Pods.framework */,
-				E438E13DFAA65EB9B9ADE059 /* Pods.framework */,
+				D9BD7E08357DB8EDB33919C3 /* Pods.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -91,6 +91,7 @@
 		E32E53871C2AE4F900A30963 /* ObjectMapper */ = {
 			isa = PBXGroup;
 			children = (
+				E32E53881C2AF4DE00A30963 /* ObjectMapperRealm.swift */,
 			);
 			name = ObjectMapper;
 			sourceTree = "<group>";
@@ -139,6 +140,7 @@
 		E3C500BD1C29A4EB00789E53 /* JSON2RealmTests */ = {
 			isa = PBXGroup;
 			children = (
+				E32E538A1C2AF55C00A30963 /* BasicRealm.swift */,
 				E32E53871C2AE4F900A30963 /* ObjectMapper */,
 				E37DB35E1C2AE4C400FFE862 /* Genome */,
 				E3C500BE1C29A4EB00789E53 /* JSON2RealmTests.swift */,
@@ -154,10 +156,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E3C500C31C29A4EB00789E53 /* Build configuration list for PBXNativeTarget "JSON2Realm" */;
 			buildPhases = (
+				9C3DD94EB43AB2FF08948E77 /* Check Pods Manifest.lock */,
 				E3C500A21C29A4EB00789E53 /* Sources */,
 				E3C500A31C29A4EB00789E53 /* Frameworks */,
 				E3C500A41C29A4EB00789E53 /* Resources */,
 				9643CDFFA86579FE38FB9EEE /* Embed Pods Frameworks */,
+				B4897692E1444BFCCD63CD06 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -260,6 +264,36 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		9C3DD94EB43AB2FF08948E77 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		B4897692E1444BFCCD63CD06 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -277,6 +311,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				E3C500BF1C29A4EB00789E53 /* JSON2RealmTests.swift in Sources */,
+				E32E53891C2AF4DE00A30963 /* ObjectMapperRealm.swift in Sources */,
+				E32E538B1C2AF55C00A30963 /* BasicRealm.swift in Sources */,
 				E3C500CA1C29A6D100789E53 /* GenomeRealm.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

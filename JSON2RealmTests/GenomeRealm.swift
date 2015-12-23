@@ -10,10 +10,7 @@ import Foundation
 import Genome
 import RealmSwift
 
-class GenomeClass: Object, StandardMappable {
-    dynamic var name: String = ""
-    dynamic var birthday: String = ""
-    dynamic var age: Int = 0
+class GenomeClass: BasicClass, StandardMappable {
     
     // checkout document:
     // https://realm.io/docs/swift/latest/#adding-custom-initializers-to-object-subclasses
@@ -32,14 +29,13 @@ class GenomeClass: Object, StandardMappable {
     
 }
 
-class OptionalGenomeClass: Object, StandardMappable {
-    var distance = RealmOptional<Int>()
-    dynamic var note: String? = nil
+class OptionalGenomeClass: BasicOptionalClass, StandardMappable {
     
     convenience required init(map: Map) throws {
         self.init()
         try self.note = <~?map["note"]
         try self.distance.value = <~?map["distance"]
+        try self.value = <~map["value"]
     }
     
     func sequence(map: Map) throws {

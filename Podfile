@@ -6,6 +6,7 @@ use_frameworks!
 pod 'Realm'
 pod 'RealmSwift'
 pod 'Genome'
+pod 'ObjectMapper'
 
 
 target 'JSON2RealmTests' do
