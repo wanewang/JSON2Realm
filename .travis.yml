@@ -1,4 +1,7 @@
 language: objective-c
 osx_image: xcode7.2
-xcode_workspace: JSON2Realm.xcworkspace # path to your xcodeproj folder
-xcode_scheme: JSON2RealmTests
+script:
+  - xctool -workspace JSON2Realm.xcworkspace -scheme JSON2Realm -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
+notifications:
+  slack:
+    secure: lPuYO2fe++XoKVR+R+gSyJjgDexZEPEIS6vlu9rU+R87bXlCP6FnRnqwU+UKO8TPm9CGO/maTbU69Wj3YWdIcXaBpVBloGKCooZpkVG2ZmfaSDWm6y+7HcYtgmmpvwxoEKZosXXunaUUvpy2xX3EeHrCfL6bwFedUGjoDAYrNBw8kBqHBuLDCOH5zSJv+3090zIHzHbz3eShVvZKTW7iE6p8+hxE+rGNorV+qDL/smwsvCuLXTESKq7ZcfIXCTv5grI0krh/uf0mOv6zVOezpWmQDr+ztSASOXd7AZW4hhwx5M6/bsZOOY/eZD68x3bjnOFlZn3be4YMJlw0UdjUYAaxlSDiqSp1tS4cIGTN9qrFIWB5L4GzbtHPi0/QMElMMqD/U9kggkm4DCpILhXT57b2ScF1EGmsDXWHgmvA/8mkOINoZh94lNCzc5BkVHHfucg+QZzvzi+cJKI6VN1pNDjLVM2iVJFeIBFul5jmQfieVgLbg702/n5u2jDArToAunlTdAvrbNnPIryeuxoAYbm3ppNb4P6OP50dCc1AZYKZuma5mn3XCl+z/tqUl3UE8zl9iJsUIpea+D+oR3UDZA70E6hZDr/smHNdrKoxQvySsWqBc6g75XL6KrKBHGzuvrmoS6eYgcqiK/4zPAerUSG+OVorMJf01g2Cipeqr2E=
