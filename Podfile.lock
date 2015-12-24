@@ -1,4 +1,5 @@
 PODS:
+  - Argo (2.2.0)
   - Genome (1.0.8)
   - ObjectMapper (1.0.1)
   - Realm (0.97.0):
@@ -8,12 +9,14 @@ PODS:
     - Realm (= 0.97.0)
 
 DEPENDENCIES:
+  - Argo
   - Genome
   - ObjectMapper
   - Realm
   - RealmSwift
 
 SPEC CHECKSUMS:
+  Argo: 4f52a32b4cd913c204e5a45f420b3fccad3e3f24
   Genome: 20d8aa7b63728553aab26fef53ea8570a71ce2f1
   ObjectMapper: 98524bac0dca46c6b3d5ee02cd410fc700ec6ce2
   Realm: b498a6fb9d288b171ff98d0e2d4384c295be8990

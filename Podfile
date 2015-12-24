@@ -7,7 +7,7 @@ pod 'Realm'
 pod 'RealmSwift'
 pod 'Genome'
 pod 'ObjectMapper'
-
+pod 'Argo'
 
 target 'JSON2RealmTests' do
 
