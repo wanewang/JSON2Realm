@@ -10,38 +10,55 @@ import XCTest
 @testable import JSON2Realm
 import Genome
 import ObjectMapper
+import Argo
 import RealmSwift
 
 class JSON2RealmTests: XCTestCase {
     var realm: Realm!
+    var basicDict1: [String: AnyObject]!
+    var basicDict2: [String: AnyObject]!
+    var basicOptionalDict1: [String: AnyObject]!
+    var basicOptionalDict2: [String: AnyObject]!
+    var basicOptionalDict3: [String: AnyObject]!
     override func setUp() {
         super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        
         Realm.Configuration.defaultConfiguration.inMemoryIdentifier = self.name
         self.realm = try! Realm()
-    }
-    
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-        super.tearDown()
-    }
-    
-    func testGenomeClass() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        let dict = [
+        
+        self.basicDict1 = [
             "name": "abc",
             "birthday": "1988-02-03",
             "age": 13
         ]
-        let dict2 = [
+        self.basicDict2 = [
             "name": "abcdef",
             "birthday": "1988-01-02",
             "age": 50
         ]
+        self.basicOptionalDict1 = [
+            "note": "abc",
+            "value": 3
+        ]
+        self.basicOptionalDict2 = [
+            "distance": 13,
+            "value": 4
+        ]
+        self.basicOptionalDict3 = [
+            "note": "def"
+        ]
+        
+        
+    }
+    
+    override func tearDown() {
+        super.tearDown()
+    }
+    
+    func testGenomeClass() {
         do {
-            let mappedBasic1 = try GenomeClass.mappedInstance(dict)
-            let mappedBasic2 = try GenomeClass.mappedInstance(dict2)
+            let mappedBasic1 = try GenomeClass.mappedInstance(self.basicDict1)
+            let mappedBasic2 = try GenomeClass.mappedInstance(self.basicDict2)
             let emptyBadic = GenomeClass.init()
             try self.realm.write { () -> Void in
                 self.realm.add(mappedBasic1)
@@ -69,17 +86,9 @@ class JSON2RealmTests: XCTestCase {
     }
     
     func testGenomeOptionalClass() {
-        let dict = [
-            "note": "abc",
-            "value": 3
-        ]
-        let dict2 = [
-            "distance": 13,
-            "value": 4
-        ]
         do {
-            let mappedBasic1 = try OptionalGenomeClass.mappedInstance(dict)
-            let mappedBasic2 = try OptionalGenomeClass.mappedInstance(dict2)
+            let mappedBasic1 = try OptionalGenomeClass.mappedInstance(self.basicOptionalDict1)
+            let mappedBasic2 = try OptionalGenomeClass.mappedInstance(self.basicOptionalDict2)
             let emptyBadic = OptionalGenomeClass.init()
             try self.realm.write { () -> Void in
                 self.realm.add(mappedBasic1)
@@ -92,15 +101,11 @@ class JSON2RealmTests: XCTestCase {
             XCTFail("realm save object error")
         }
         
-        let dict3 = [
-            "note": "def"
-        ]
-        
         do {
-            let _ = try OptionalGenomeClass.mappedInstance(dict3)
+            let _ = try OptionalGenomeClass.mappedInstance(self.basicOptionalDict3)
             XCTFail("parse nil value to nonoptional attribute should throw error")
         } catch {
-            
+            // Genome will throw error if marked non-optional whose json is nil
         }
         
         let results = self.realm.objects(OptionalGenomeClass)
@@ -119,27 +124,19 @@ class JSON2RealmTests: XCTestCase {
     }
     
     func testObjectMapperClass() {
-        let dict = [
-            "name": "abc",
-            "birthday": "1988-02-03",
-            "age": 13
-        ]
-        let dict2 = [
-            "name": "abcdef",
-            "birthday": "1988-01-02",
-            "age": 50
-        ]
+        let emptyBadic = ObjectMapperClass.init()
+        guard let mappedBasic1 = Mapper<ObjectMapperClass>().map(self.basicDict1),
+            let mappedBasic2 = Mapper<ObjectMapperClass>().map(self.basicDict2) else {
+                XCTFail("parse object failed")
+                return
+        }
+        
         do {
-            let mappedBasic1 = Mapper<ObjectMapperClass>().map(dict)!
-            let mappedBasic2 = Mapper<ObjectMapperClass>().map(dict2)!
-            let emptyBadic = ObjectMapperClass.init()
             try self.realm.write { () -> Void in
                 self.realm.add(mappedBasic1)
                 self.realm.add(mappedBasic2)
                 self.realm.add(emptyBadic)
             }
-        } catch is MappingError {
-            XCTFail("mapped object error")
         } catch {
             XCTFail("realm save object error")
         }
@@ -159,40 +156,100 @@ class JSON2RealmTests: XCTestCase {
     }
     
     func testObjectMapperOptionalClass() {
-        let dict = [
-            "note": "abc",
-            "value": 3
-        ]
-        let dict2 = [
-            "distance": 13,
-            "value": 4
-        ]
+        let emptyBadic = ObjectMapperOptionalClass.init()
+        guard let mappedBasic1 = Mapper<ObjectMapperOptionalClass>().map(self.basicOptionalDict1),
+            let mappedBasic2 = Mapper<ObjectMapperOptionalClass>().map(self.basicOptionalDict2) else {
+                XCTFail("parse object failed")
+                return
+        }
         do {
-            let mappedBasic1 = Mapper<ObjectMapperOptionalClass>().map(dict)!
-            let mappedBasic2 = Mapper<ObjectMapperOptionalClass>().map(dict2)!
-            let emptyBadic = ObjectMapperOptionalClass.init()
             try self.realm.write { () -> Void in
                 self.realm.add(mappedBasic1)
                 self.realm.add(mappedBasic2)
                 self.realm.add(emptyBadic)
             }
-        } catch is MappingError {
-            XCTFail("mapped object error")
         } catch {
             XCTFail("realm save object error")
         }
         
-        let dict3 = [
-            "note": "def"
-        ]
-        
-        if let mappedBasic3 = Mapper<ObjectMapperOptionalClass>().map(dict3) {
-            print(Mapper().toJSONString(mappedBasic3))
+        // ObjectMapper will set to default value if marked non-optional whose json is nil
+        if let mappedBasic3 = Mapper<ObjectMapperOptionalClass>().map(self.basicOptionalDict3) {
             XCTAssert(mappedBasic3.distance.value == nil, "parse nil value to nonoptional attribute should be nil")
             XCTAssert(mappedBasic3.value == 0, "json don't have value key, it should be set as default")
         }
         
         let results = self.realm.objects(ObjectMapperOptionalClass)
+        let test = Array(results)
+        XCTAssert(test.count == 3)
+        if let last = test.last {
+            XCTAssert(last.note == nil, "last object should be empty with all value nil")
+        } else {
+            XCTFail("last should not be nil")
+        }
+        if let first = test.first {
+            XCTAssert(first.note != nil, "first object note should not be nil")
+        } else {
+            XCTFail("last should not be nil")
+        }
+    }
+    
+    func testArgoClass() {
+        
+        let emptyBadic = ArgoClass.init()
+        guard let mappedBasic1: ArgoClass = decode(self.basicDict1),
+            let mappedBasic2: ArgoClass = decode(self.basicDict2) else {
+                XCTFail("parse object failed")
+                return
+        }
+        
+        do {
+            try self.realm.write { () -> Void in
+                self.realm.add(mappedBasic1)
+                self.realm.add(mappedBasic2)
+                self.realm.add(emptyBadic)
+            }
+        } catch {
+            XCTFail("realm save object error")
+        }
+        
+        let results = self.realm.objects(ArgoClass)
+        let test = Array(results)
+        XCTAssert(test.count == 3)
+        if let last = test.last {
+            XCTAssert(last.name == "", "last object should be empty with default value")
+        } else {
+            XCTFail("last should not be nil")
+        }
+        if let first = test.first {
+            XCTAssert(first.birthday != "", "first object birthday should not be default value")
+        } else {
+            XCTFail("last should not be nil")
+        }
+    }
+    
+    func testArgoOptionalClass() {
+        let emptyBadic = ArgoOptionalClass.init()
+        guard let mappedBasic1: ArgoOptionalClass = decode(self.basicOptionalDict1),
+            let mappedBasic2: ArgoOptionalClass = decode(self.basicOptionalDict2) else {
+                XCTFail("parse object failed")
+                return
+        }
+        do {
+            try self.realm.write { () -> Void in
+                self.realm.add(mappedBasic1)
+                self.realm.add(mappedBasic2)
+                self.realm.add(emptyBadic)
+            }
+        } catch {
+            XCTFail("realm save object error")
+        }
+        
+        // Argo will return nil object if marked non-optional whose json is nil
+        if let _: ArgoOptionalClass = decode(self.basicOptionalDict3) {
+            XCTFail("Argo will return nil object if marked non-optional whose json is nil")
+        }
+        
+        let results = self.realm.objects(ArgoOptionalClass)
         let test = Array(results)
         XCTAssert(test.count == 3)
         if let last = test.last {

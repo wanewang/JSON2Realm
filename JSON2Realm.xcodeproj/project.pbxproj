@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		BA8BCF443D1B355917BB9FEE /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9BD7E08357DB8EDB33919C3 /* Pods.framework */; };
+		E322C2FE1C392FF90032317B /* ArgoRealm.swift in Sources */ = {isa = PBXBuildFile; fileRef = E322C2FD1C392FF90032317B /* ArgoRealm.swift */; };
 		E32E53891C2AF4DE00A30963 /* ObjectMapperRealm.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32E53881C2AF4DE00A30963 /* ObjectMapperRealm.swift */; };
 		E32E538B1C2AF55C00A30963 /* BasicRealm.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32E538A1C2AF55C00A30963 /* BasicRealm.swift */; };
 		E3C500AA1C29A4EB00789E53 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C500A91C29A4EB00789E53 /* AppDelegate.swift */; };
@@ -33,6 +34,7 @@
 /* Begin PBXFileReference section */
 		97571CD84ACC12277F2C6C4C /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		D9BD7E08357DB8EDB33919C3 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E322C2FD1C392FF90032317B /* ArgoRealm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArgoRealm.swift; sourceTree = "<group>"; };
 		E32E53881C2AF4DE00A30963 /* ObjectMapperRealm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObjectMapperRealm.swift; sourceTree = "<group>"; };
 		E32E538A1C2AF55C00A30963 /* BasicRealm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicRealm.swift; sourceTree = "<group>"; };
 		E3C500A61C29A4EB00789E53 /* JSON2Realm.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JSON2Realm.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -88,6 +90,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		E322C2FC1C392BC80032317B /* Argo */ = {
+			isa = PBXGroup;
+			children = (
+				E322C2FD1C392FF90032317B /* ArgoRealm.swift */,
+			);
+			name = Argo;
+			sourceTree = "<group>";
+		};
 		E32E53871C2AE4F900A30963 /* ObjectMapper */ = {
 			isa = PBXGroup;
 			children = (
@@ -141,6 +151,7 @@
 			isa = PBXGroup;
 			children = (
 				E32E538A1C2AF55C00A30963 /* BasicRealm.swift */,
+				E322C2FC1C392BC80032317B /* Argo */,
 				E32E53871C2AE4F900A30963 /* ObjectMapper */,
 				E37DB35E1C2AE4C400FFE862 /* Genome */,
 				E3C500BE1C29A4EB00789E53 /* JSON2RealmTests.swift */,
@@ -311,6 +322,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E3C500BF1C29A4EB00789E53 /* JSON2RealmTests.swift in Sources */,
+				E322C2FE1C392FF90032317B /* ArgoRealm.swift in Sources */,
 				E32E53891C2AF4DE00A30963 /* ObjectMapperRealm.swift in Sources */,
 				E32E538B1C2AF55C00A30963 /* BasicRealm.swift in Sources */,
 				E3C500CA1C29A6D100789E53 /* GenomeRealm.swift in Sources */,
