@@ -40,10 +40,11 @@ class OptionalGenomeClass: BasicOptionalClass, StandardMappable {
     
     func sequence(map: Map) throws {
         try self.note ~> map["note"]
-        try self.distance.value ~> map["distance"]
             .transformToJson {
                 $0 ?? NSNull()
-        }
+            }
+        try self.distance.value ~> map["distance"]
+        
     }
 }
 

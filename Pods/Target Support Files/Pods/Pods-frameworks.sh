@@ -86,6 +86,7 @@ strip_invalid_archs() {
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "Pods/Argo.framework"
   install_framework "Pods/Genome.framework"
+  install_framework "Pods/Gloss.framework"
   install_framework "Pods/ObjectMapper.framework"
   install_framework "Pods/Realm.framework"
   install_framework "Pods/RealmSwift.framework"
@@ -93,6 +94,7 @@ fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "Pods/Argo.framework"
   install_framework "Pods/Genome.framework"
+  install_framework "Pods/Gloss.framework"
   install_framework "Pods/ObjectMapper.framework"
   install_framework "Pods/Realm.framework"
   install_framework "Pods/RealmSwift.framework"

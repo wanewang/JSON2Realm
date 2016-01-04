@@ -40,3 +40,10 @@ class BasicOptionalClass: Object {
 
 1. Cannot use `curry(self.init)` will error with `Expression was too complext...`
 2. Argo will return nil object if marked non-optional whose json is nil
+
+## [Gloss](https://github.com/hkellaway/Gloss)
+
+[GlossObject](https://github.com/jhihguan/JSON2Realm/blob/master/JSON2RealmTests/GlossRealm.swift)
+
+1. Need to use `final` on class since it use `Self` on protocol extension
+2. Gloss have the ability to customize action if error when parsing(return nil for this example)

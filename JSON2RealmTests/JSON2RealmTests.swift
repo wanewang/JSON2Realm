@@ -10,6 +10,7 @@ import XCTest
 @testable import JSON2Realm
 import Genome
 import ObjectMapper
+import Gloss
 import Argo
 import RealmSwift
 
@@ -95,6 +96,20 @@ class JSON2RealmTests: XCTestCase {
                 self.realm.add(mappedBasic2)
                 self.realm.add(emptyBadic)
             }
+            
+            // test toJSON
+            let json1 = try mappedBasic1.jsonRepresentation()
+            if let note = json1["note"] {
+                    XCTAssert(!(note is NSNull), "custom encode non-nil value should not be NSNull")
+            } else {
+                XCTFail("OptionalGenomeClass jsonRepresentation should success")
+            }
+            let json2 = try mappedBasic2.jsonRepresentation()
+            if let note = json2["note"] {
+                    XCTAssert(note is NSNull, "custom encode nil value should be parsed as NSNull")
+            } else {
+                XCTFail("OptionalGenomeClass jsonRepresentation should success")
+            }
         } catch is MappingError {
             XCTFail("mapped object error")
         } catch {
@@ -121,6 +136,7 @@ class JSON2RealmTests: XCTestCase {
         } else {
             XCTFail("last should not be nil")
         }
+        
     }
     
     func testObjectMapperClass() {
@@ -261,6 +277,90 @@ class JSON2RealmTests: XCTestCase {
             XCTAssert(first.note != nil, "first object note should not be nil")
         } else {
             XCTFail("last should not be nil")
+        }
+    }
+    
+    func testGlossClass() {
+        let emptyBadic = GlossClass.init()
+        guard let mappedBasic1 = GlossClass(json: self.basicDict1),
+            let mappedBasic2 = GlossClass(json: self.basicDict2) else {
+                XCTFail("parse object failed")
+                return
+        }
+        
+        do {
+            try self.realm.write { () -> Void in
+                self.realm.add(mappedBasic1)
+                self.realm.add(mappedBasic2)
+                self.realm.add(emptyBadic)
+            }
+        } catch {
+            XCTFail("realm save object error")
+        }
+        
+        let results = self.realm.objects(GlossClass)
+        let test = Array(results)
+        XCTAssert(test.count == 3)
+        if let last = test.last {
+            XCTAssert(last.name == "", "last object should be empty with default value")
+        } else {
+            XCTFail("last should not be nil")
+        }
+        if let first = test.first {
+            XCTAssert(first.birthday != "", "first object birthday should not be default value")
+        } else {
+            XCTFail("last should not be nil")
+        }
+    }
+    
+    func testGlossOptionalClass() {
+        let emptyBadic = GlossOptionalClass.init()
+        guard let mappedBasic1 = GlossOptionalClass(json: self.basicOptionalDict1),
+            let mappedBasic2 = GlossOptionalClass(json: self.basicOptionalDict2) else {
+                XCTFail("parse object failed")
+                return
+        }
+        do {
+            try self.realm.write { () -> Void in
+                self.realm.add(mappedBasic1)
+                self.realm.add(mappedBasic2)
+                self.realm.add(emptyBadic)
+            }
+        } catch {
+            XCTFail("realm save object error")
+        }
+        
+        // Gloss have the ability to define yourself a way to handle parsed error
+        if let _ = GlossOptionalClass(json: self.basicOptionalDict3) {
+            XCTFail("In this case, Gloss will return nil object if marked non-optional whose json is nil")
+        }
+        
+        let results = self.realm.objects(GlossOptionalClass)
+        let test = Array(results)
+        XCTAssert(test.count == 3)
+        if let last = test.last {
+            XCTAssert(last.note == nil, "last object should be empty with all value nil")
+        } else {
+            XCTFail("last should not be nil")
+        }
+        if let first = test.first {
+            XCTAssert(first.note != nil, "first object note should not be nil")
+        } else {
+            XCTFail("last should not be nil")
+        }
+        
+        // test toJSON
+        if let json1 = mappedBasic1.toJSON(),
+            let note = json1["note"] {
+            XCTAssert(!(note is NSNull), "custom encode non-nil value should not be NSNull")
+        } else {
+            XCTFail("GlossOptionalClass toJSON should success")
+        }
+        if let json2 = mappedBasic2.toJSON(),
+            let note = json2["note"] {
+            XCTAssert(note is NSNull, "custom encode nil value should be parsed as NSNull")
+        } else {
+            XCTFail("GlossOptionalClass toJSON should success")
         }
     }
     

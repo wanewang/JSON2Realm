@@ -11,6 +11,7 @@
 		E322C2FE1C392FF90032317B /* ArgoRealm.swift in Sources */ = {isa = PBXBuildFile; fileRef = E322C2FD1C392FF90032317B /* ArgoRealm.swift */; };
 		E32E53891C2AF4DE00A30963 /* ObjectMapperRealm.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32E53881C2AF4DE00A30963 /* ObjectMapperRealm.swift */; };
 		E32E538B1C2AF55C00A30963 /* BasicRealm.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32E538A1C2AF55C00A30963 /* BasicRealm.swift */; };
+		E37DAB9D1C3A965400746D4D /* GlossRealm.swift in Sources */ = {isa = PBXBuildFile; fileRef = E37DAB9C1C3A965400746D4D /* GlossRealm.swift */; };
 		E3C500AA1C29A4EB00789E53 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C500A91C29A4EB00789E53 /* AppDelegate.swift */; };
 		E3C500AC1C29A4EB00789E53 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C500AB1C29A4EB00789E53 /* ViewController.swift */; };
 		E3C500AF1C29A4EB00789E53 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E3C500AD1C29A4EB00789E53 /* Main.storyboard */; };
@@ -37,6 +38,7 @@
 		E322C2FD1C392FF90032317B /* ArgoRealm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArgoRealm.swift; sourceTree = "<group>"; };
 		E32E53881C2AF4DE00A30963 /* ObjectMapperRealm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObjectMapperRealm.swift; sourceTree = "<group>"; };
 		E32E538A1C2AF55C00A30963 /* BasicRealm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicRealm.swift; sourceTree = "<group>"; };
+		E37DAB9C1C3A965400746D4D /* GlossRealm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlossRealm.swift; sourceTree = "<group>"; };
 		E3C500A61C29A4EB00789E53 /* JSON2Realm.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JSON2Realm.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E3C500A91C29A4EB00789E53 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E3C500AB1C29A4EB00789E53 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -106,6 +108,14 @@
 			name = ObjectMapper;
 			sourceTree = "<group>";
 		};
+		E37DAB9B1C3A964500746D4D /* Gloss */ = {
+			isa = PBXGroup;
+			children = (
+				E37DAB9C1C3A965400746D4D /* GlossRealm.swift */,
+			);
+			name = Gloss;
+			sourceTree = "<group>";
+		};
 		E37DB35E1C2AE4C400FFE862 /* Genome */ = {
 			isa = PBXGroup;
 			children = (
@@ -151,6 +161,7 @@
 			isa = PBXGroup;
 			children = (
 				E32E538A1C2AF55C00A30963 /* BasicRealm.swift */,
+				E37DAB9B1C3A964500746D4D /* Gloss */,
 				E322C2FC1C392BC80032317B /* Argo */,
 				E32E53871C2AE4F900A30963 /* ObjectMapper */,
 				E37DB35E1C2AE4C400FFE862 /* Genome */,
@@ -323,6 +334,7 @@
 			files = (
 				E3C500BF1C29A4EB00789E53 /* JSON2RealmTests.swift in Sources */,
 				E322C2FE1C392FF90032317B /* ArgoRealm.swift in Sources */,
+				E37DAB9D1C3A965400746D4D /* GlossRealm.swift in Sources */,
 				E32E53891C2AF4DE00A30963 /* ObjectMapperRealm.swift in Sources */,
 				E32E538B1C2AF55C00A30963 /* BasicRealm.swift in Sources */,
 				E3C500CA1C29A6D100789E53 /* GenomeRealm.swift in Sources */,
