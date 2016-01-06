@@ -12,6 +12,7 @@ import Genome
 import ObjectMapper
 import Gloss
 import Argo
+import Unbox
 import RealmSwift
 
 class JSON2RealmTests: XCTestCase {
@@ -207,6 +208,23 @@ class JSON2RealmTests: XCTestCase {
         } else {
             XCTFail("last should not be nil")
         }
+        
+        // test toJSON
+        // need to execute inside realm write transaction
+        try! self.realm.write { () -> Void in
+            let json1 = Mapper().toJSON(mappedBasic1)
+            let json2 = Mapper().toJSON(mappedBasic2)
+            if let note = json1["note"] {
+                XCTAssert(!(note is NSNull), "custom encode non-nil value should not be NSNull")
+            } else {
+                XCTFail("ObjectMapperOptionalClass toJSON should success")
+            }
+            if let _ = json2["note"] {
+                XCTFail("default nil value should be parsed as nil value")
+            }
+            // ObjectMapperOptionalClass should have custom transformer for String
+        }
+        
     }
     
     func testArgoClass() {
@@ -362,6 +380,84 @@ class JSON2RealmTests: XCTestCase {
         } else {
             XCTFail("GlossOptionalClass toJSON should success")
         }
+    }
+    
+    func testUnboxClass() {
+        let emptyBadic = UnboxClass.init()
+        guard let mappedBasic1: UnboxClass = Unbox(self.basicDict1),
+            let mappedBasic2: UnboxClass = Unbox(self.basicDict2) else {
+                XCTFail("parse object failed")
+                return
+        }
+        
+        do {
+            try self.realm.write { () -> Void in
+                self.realm.add(mappedBasic1)
+                self.realm.add(mappedBasic2)
+                self.realm.add(emptyBadic)
+            }
+        } catch {
+            XCTFail("realm save object error")
+        }
+        
+        let results = self.realm.objects(UnboxClass)
+        let test = Array(results)
+        XCTAssert(test.count == 3)
+        if let last = test.last {
+            XCTAssert(last.name == "", "last object should be empty with default value")
+        } else {
+            XCTFail("last should not be nil")
+        }
+        if let first = test.first {
+            XCTAssert(first.birthday != "", "first object birthday should not be default value")
+        } else {
+            XCTFail("last should not be nil")
+        }
+    }
+    
+    func testUnboxOptionalClass() {
+        let emptyBadic = UnboxOptionalClass.init()
+        guard let mappedBasic1: UnboxOptionalClass = Unbox(self.basicOptionalDict1),
+            let mappedBasic2: UnboxOptionalClass = Unbox(self.basicOptionalDict2) else {
+                XCTFail("parse object failed")
+                return
+        }
+        do {
+            try self.realm.write { () -> Void in
+                self.realm.add(mappedBasic1)
+                self.realm.add(mappedBasic2)
+                self.realm.add(emptyBadic)
+            }
+        } catch {
+            XCTFail("realm save object error")
+        }
+        
+        // Unbox can return nil or throw error when parsed error
+        if let _: UnboxOptionalClass = Unbox(self.basicOptionalDict3) {
+            XCTFail("Unbox can return nil if use Unbox(json)")
+        }
+        
+        do {
+            let _: UnboxOptionalClass = try UnboxOrThrow(self.basicOptionalDict3)
+            XCTFail("Genome will throw error if marked non-optional whose json is nil")
+        } catch {
+            
+        }
+        
+        let results = self.realm.objects(UnboxOptionalClass)
+        let test = Array(results)
+        XCTAssert(test.count == 3)
+        if let last = test.last {
+            XCTAssert(last.note == nil, "last object should be empty with all value nil")
+        } else {
+            XCTFail("last should not be nil")
+        }
+        if let first = test.first {
+            XCTAssert(first.note != nil, "first object note should not be nil")
+        } else {
+            XCTFail("last should not be nil")
+        }
+        
     }
     
     func testPerformanceExample() {

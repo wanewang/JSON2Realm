@@ -8,6 +8,7 @@ PODS:
   - Realm/Headers (0.97.0)
   - RealmSwift (0.97.0):
     - Realm (= 0.97.0)
+  - Unbox (1.2.3)
 
 DEPENDENCIES:
   - Argo
@@ -16,6 +17,7 @@ DEPENDENCIES:
   - ObjectMapper
   - Realm
   - RealmSwift
+  - Unbox
 
 SPEC CHECKSUMS:
   Argo: 4f52a32b4cd913c204e5a45f420b3fccad3e3f24
@@ -24,5 +26,6 @@ SPEC CHECKSUMS:
   ObjectMapper: 98524bac0dca46c6b3d5ee02cd410fc700ec6ce2
   Realm: b498a6fb9d288b171ff98d0e2d4384c295be8990
   RealmSwift: d014810dec75c9a3f1a33926d2dabfed855c582c
+  Unbox: 357412aec9fe10e0dcd36df61a2352a277037b62
 
 COCOAPODS: 0.39.0

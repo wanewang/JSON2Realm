@@ -9,6 +9,7 @@ pod 'Genome'
 pod 'ObjectMapper'
 pod 'Argo'
 pod 'Gloss'
+pod 'Unbox'
 
 target 'JSON2RealmTests' do
 

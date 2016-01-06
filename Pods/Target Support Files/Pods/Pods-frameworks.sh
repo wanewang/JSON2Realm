@@ -90,6 +90,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "Pods/ObjectMapper.framework"
   install_framework "Pods/Realm.framework"
   install_framework "Pods/RealmSwift.framework"
+  install_framework "Pods/Unbox.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "Pods/Argo.framework"
@@ -98,4 +99,5 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "Pods/ObjectMapper.framework"
   install_framework "Pods/Realm.framework"
   install_framework "Pods/RealmSwift.framework"
+  install_framework "Pods/Unbox.framework"
 fi
