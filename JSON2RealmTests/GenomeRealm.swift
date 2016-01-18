@@ -8,9 +8,19 @@
 
 import Foundation
 import Genome
+import PureJsonSerializer
 import RealmSwift
 
-class GenomeClass: BasicClass, StandardMappable {
+extension NSNull: JsonConvertibleType {
+    public static func newInstance(json: Json, context: Context) throws -> Self {
+        return self.init()
+    }
+    public func jsonRepresentation() throws -> Json {
+        return .NullValue
+    }
+}
+
+final class GenomeClass: BasicClass, MappableObject {
     
     // checkout document:
     // https://realm.io/docs/swift/latest/#adding-custom-initializers-to-object-subclasses
@@ -29,19 +39,22 @@ class GenomeClass: BasicClass, StandardMappable {
     
 }
 
-class OptionalGenomeClass: BasicOptionalClass, StandardMappable {
+final class OptionalGenomeClass: BasicOptionalClass, MappableObject {
     
     convenience required init(map: Map) throws {
         self.init()
-        try self.note = <~?map["note"]
-        try self.distance.value = <~?map["distance"]
+        try self.note = <~map["note"]
+        try self.distance.value = <~map["distance"]
         try self.value = <~map["value"]
     }
     
     func sequence(map: Map) throws {
         try self.note ~> map["note"]
-            .transformToJson {
-                $0 ?? NSNull()
+            .transformToJson { (value: String?) -> String in
+                if let text = value {
+                    return text
+                }
+                return "\(NSNull())"
             }
         try self.distance.value ~> map["distance"]
         

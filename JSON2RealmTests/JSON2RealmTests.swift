@@ -14,6 +14,7 @@ import Gloss
 import Argo
 import Unbox
 import RealmSwift
+import PureJsonSerializer
 
 class JSON2RealmTests: XCTestCase {
     var realm: Realm!
@@ -59,8 +60,10 @@ class JSON2RealmTests: XCTestCase {
     
     func testGenomeClass() {
         do {
-            let mappedBasic1 = try GenomeClass.mappedInstance(self.basicDict1)
-            let mappedBasic2 = try GenomeClass.mappedInstance(self.basicDict2)
+            let json1: Json = Json.from(self.basicDict1)
+            let json2 = Json.from(self.basicDict2)
+            let mappedBasic1 = try GenomeClass.init(js: json1)
+            let mappedBasic2 = try GenomeClass.newInstance(json2)
             let emptyBadic = GenomeClass.init()
             try self.realm.write { () -> Void in
                 self.realm.add(mappedBasic1)
@@ -89,8 +92,10 @@ class JSON2RealmTests: XCTestCase {
     
     func testGenomeOptionalClass() {
         do {
-            let mappedBasic1 = try OptionalGenomeClass.mappedInstance(self.basicOptionalDict1)
-            let mappedBasic2 = try OptionalGenomeClass.mappedInstance(self.basicOptionalDict2)
+            let jsonOption1: Json = Json.from(self.basicOptionalDict1)
+            let jsonOption2 = Json.from(self.basicOptionalDict2)
+            let mappedBasic1 = try OptionalGenomeClass.init(js: jsonOption1)
+            let mappedBasic2 = try OptionalGenomeClass.newInstance(jsonOption2)
             let emptyBadic = OptionalGenomeClass.init()
             try self.realm.write { () -> Void in
                 self.realm.add(mappedBasic1)
@@ -101,13 +106,13 @@ class JSON2RealmTests: XCTestCase {
             // test toJSON
             let json1 = try mappedBasic1.jsonRepresentation()
             if let note = json1["note"] {
-                    XCTAssert(!(note is NSNull), "custom encode non-nil value should not be NSNull")
+                    XCTAssert(!(note.isNull), "custom encode non-nil value should not be NSNull")
             } else {
                 XCTFail("OptionalGenomeClass jsonRepresentation should success")
             }
             let json2 = try mappedBasic2.jsonRepresentation()
-            if let note = json2["note"] {
-                    XCTAssert(note is NSNull, "custom encode nil value should be parsed as NSNull")
+            if let note = json2["note"]?.stringValue {
+                    XCTAssert(note == "\(NSNull())", "custom encode nil value should be parsed as NSNull")
             } else {
                 XCTFail("OptionalGenomeClass jsonRepresentation should success")
             }
@@ -118,7 +123,8 @@ class JSON2RealmTests: XCTestCase {
         }
         
         do {
-            let _ = try OptionalGenomeClass.mappedInstance(self.basicOptionalDict3)
+            let jsonOption3 = Json.from(self.basicOptionalDict3)
+            let _ = try OptionalGenomeClass.newInstance(jsonOption3)
             XCTFail("parse nil value to nonoptional attribute should throw error")
         } catch {
             // Genome will throw error if marked non-optional whose json is nil

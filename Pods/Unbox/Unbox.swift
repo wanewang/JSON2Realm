@@ -137,6 +137,8 @@ public enum UnboxError: ErrorType, CustomStringConvertible {
             return baseDescription + "Invalid value (\(valueDescription)) for key (\(key))"
         case .InvalidData:
             return "Invalid data"
+        case .CustomUnboxingFailed:
+            return "A custom unboxing closure returned nil"
         }
     }
     
@@ -147,6 +149,8 @@ public enum UnboxError: ErrorType, CustomStringConvertible {
     case InvalidValue(String, String)
     /// Thrown when a piece of data (NSData) could not be unboxed because it was considered invalid
     case InvalidData
+    /// Thrown when a custom unboxing closure returned nil
+    case CustomUnboxingFailed
 }
 
 // MARK: - Protocols
@@ -303,15 +307,14 @@ extension NSDateFormatter: UnboxFormatter {
  *  An Unboxer may also be manually failed, by using the `failForKey()` or `failForInvalidValue(forKey:)` APIs.
  */
 public class Unboxer {
-    /// All keys contained within the underlying JSON data that is being unboxed
-    public var allKeys: [String] { return Array(self.dictionary.keys) }
+    /// The underlying JSON dictionary that is being unboxed
+    public let dictionary: UnboxableDictionary
     /// Whether the Unboxer has failed, and a `nil` value will be returned from the `Unbox()` function that triggered it.
     public var hasFailed: Bool { return self.failureInfo != nil }
     /// Any contextual object that was supplied when unboxing was started
     public let context: Any?
     
     private var failureInfo: (key: String, value: Any?)?
-    private let dictionary: UnboxableDictionary
     
     // MARK: - Private initializer
     
@@ -320,7 +323,19 @@ public class Unboxer {
         self.context = context
     }
     
-    // MARK: - Public API
+    // MARK: - Custom unboxing API
+    
+    /// Perform custom unboxing using an Unboxer (created from a dictionary) passed to a closure, or throw an UnboxError
+    public static func performCustomUnboxingWithDictionary<T>(dictionary: UnboxableDictionary, context: Any? = nil, closure: Unboxer -> T?) throws -> T {
+        return try Unboxer(dictionary: dictionary, context: context).performCustomUnboxingWithClosure(closure)
+    }
+    
+    /// Perform custom unboxing using an Unboxer (created from NSData) passed to a closure, or throw an UnboxError
+    public static func performCustomUnboxingWithData<T>(data: NSData, context: Any? = nil, closure: Unboxer -> T?) throws -> T {
+        return try Unboxer.unboxerFromData(data, context: context).performCustomUnboxingWithClosure(closure)
+    }
+    
+    // MARK: - Value accessing API
     
     /// Unbox a required raw type
     public func unbox<T: UnboxableRawType>(key: String) -> T {
@@ -332,14 +347,36 @@ public class Unboxer {
         return UnboxValueResolver<T>(self).resolveOptionalValueForKey(key)
     }
     
-    /// Unbox a required Array
-    public func unbox<T>(key: String) -> [T] {
+    /// Unbox a required Array of raw values
+    public func unbox<T where T: UnboxableRawType>(key: String) -> [T] {
         return UnboxValueResolver<[T]>(self).resolveRequiredValueForKey(key, fallbackValue: [])
     }
     
-    /// Unbox an optional Array
-    public func unbox<T>(key: String) -> [T]? {
+    /// Unbox an optional Array of raw values
+    public func unbox<T where T: UnboxableRawType>(key: String) -> [T]? {
         return UnboxValueResolver<[T]>(self).resolveOptionalValueForKey(key)
+    }
+    
+    /// Unbox a required raw value from a certain index in a nested Array
+    public func unbox<T where T: UnboxableRawType>(key: String, index: Int) -> T {
+        return UnboxValueResolver<[T]>(self).resolveRequiredValueForKey(key, fallbackValue: T.unboxFallbackValue(), transform: {
+            if index < 0 || index >= $0.count {
+                return nil
+            }
+            
+            return $0[index]
+        })
+    }
+    
+    /// Unbox an optional raw value from a certain index in a nested Array
+    public func unbox<T where T: UnboxableRawType>(key: String, index: Int) -> T? {
+        return UnboxValueResolver<[T]>(self).resolveOptionalValueForKey(key, transform: {
+            if index < 0 || index >= $0.count {
+                return nil
+            }
+            
+            return $0[index]
+        })
     }
     
     /// Unbox a required Dictionary with untyped values, without applying a transform on them
@@ -621,6 +658,16 @@ private extension Unboxer {
     func performUnboxingWithContext<T: UnboxableWithContext>(context: T.ContextType) throws -> T {
         let unboxed = T(unboxer: self, context: context)
         try self.throwIfFailed()
+        return unboxed
+    }
+    
+    func performCustomUnboxingWithClosure<T>(closure: Unboxer -> T?) throws -> T {
+        guard let unboxed: T = closure(self) else {
+            throw UnboxError.CustomUnboxingFailed
+        }
+        
+        try self.throwIfFailed()
+        
         return unboxed
     }
     

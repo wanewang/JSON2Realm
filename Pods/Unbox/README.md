@@ -1,6 +1,6 @@
 # Unbox
 
-![Travis](https://img.shields.io/travis/JohnSundell/Unbox.svg)
+![Travis](https://img.shields.io/travis/JohnSundell/Unbox/master.svg)
 ![CocoaPods](https://img.shields.io/cocoapods/v/Unbox.svg)
 [![Carthage](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 
@@ -34,7 +34,7 @@ To decode this JSON into a `User` instance, all you have to do is make `User` co
 struct User: Unboxable {
     let name: String
     let age: Int
-    
+
     init(unboxer: Unboxer) {
         self.name = unboxer.unbox("name")
         self.age = unboxer.unbox("age")
@@ -101,7 +101,7 @@ enum SpaceShipType: Int, UnboxableEnum {
 struct Engine: Unboxable {
     let manufacturer: String
     let fuelConsumption: Float
-    
+
     init(unboxer: Unboxer) {
         self.manufacturer = unboxer.unbox("manufacturer")
         self.fuelConsumption = unboxer.unbox("fuelConsumption")
@@ -110,7 +110,7 @@ struct Engine: Unboxable {
 
 struct Astronaut: Unboxable {
     let name: String
-    
+
     init(unboxer: Unboxer) {
         self.name = unboxer.unbox("name")
     }
@@ -162,7 +162,7 @@ struct UniqueIdentifier: UnboxableByTransform {
     typealias UnboxRawValueType = String
 
     let identifierString: String
-    
+
     init?(identifierString: String) {
         if let UUID = NSUUID(UUIDString: identifierString) {
             self.identifierString = UUID.UUIDString
@@ -171,12 +171,16 @@ struct UniqueIdentifier: UnboxableByTransform {
         }
     }
 
-    static func transformUnboxedValue(unboxedValue: String) -> Identifier? {
-        return Identifier(identifierString: unboxedValue)
+    init() {
+        self.identifierString = NSUUID().UUIDString
     }
-    
-    static func unboxFallbackValue() -> Identifier {
-        return Identifier()
+
+    static func transformUnboxedValue(unboxedValue: String) -> UniqueIdentifier? {
+        return UniqueIdentifier(identifierString: unboxedValue)
+    }
+
+    static func unboxFallbackValue() -> UniqueIdentifier {
+        return UniqueIdentifier()
     }
 }
 ```
@@ -205,7 +209,7 @@ Now `Profession` can be unboxed directly in any model
 ```swift
 struct Passenger: Unboxable {
     let profession: Profession
-    
+
     init(unboxer: Unboxer) {
         self.profession = unboxer.unbox("profession")
     }
@@ -252,19 +256,51 @@ struct User: Unboxable {
 }
 ```
 
+### Custom unboxing
+
+Sometimes you need more fine grained control over the decoding process, and even though Unbox was designed for simplicity, it also features a powerful custom unboxing API that enables you to take control of how an object gets unboxed. This comes very much in handy when using Unbox together with Core Data, when using dependency injection, or when aggregating data from multiple sources. Here's an example:
+
+```swift
+let dependency = DependencyManager.loadDependency()
+
+let model: Model = try Unboxer.performCustomUnboxingWithDictionary(dictionary, closure: {
+    let unboxer = $0
+
+    var model = Model(dependency: dependency)
+    model.name = unboxer.unbox("name")
+    model.count = unboxer.unbox("count")
+
+    return model
+})
+```
+
 ### Installation
 
 **CocoaPods:**
 
 Add the line `pod "Unbox"` to your `Podfile`
 
-**Carthage:** 
+**Carthage:**
 
 Add the line `github "johnsundell/unbox"` to your `Cartfile`
 
 **Manual:**
 
 Clone the repo and drag the file `Unbox.swift` into your Xcode project.
+
+### Debugging tips
+
+In case your unboxing code isn’t working like you expect it to, here are some tips on how to debug it:
+
+**Compile time error: `Ambiguous reference to member 'unbox'`**
+
+Swift cannot find the appropriate overload of the `unbox` method to call. Make sure you have conformed to any required protocol (such as `Unboxable`, `UnboxableEnum`, etc). Note that you can only conform to one Unbox protocol for each type (that is, a type cannot be both an `UnboxableEnum` and `UnboxableByTransform`). Also remember that you can only reference concrete types (not `Protocol` types) in order for Swift to be able to select what overload to use.
+
+**`Unbox()` returns nil**
+
+Either set a breakpoint in `Unboxer.failForInvalidValue(forKey:)` to see what key/value combination that caused the unboxing process to fail, or use the `do, try, catch` pattern and `UnboxOrThrow` function, which will enable you to access any `UnboxError` thrown in the `catch` block.
+
+If you need any help in resolving any problems that you might encounter while using Unbox, feel free to open an Issue.
 
 ### Hope you enjoy unboxing your JSON!
 
