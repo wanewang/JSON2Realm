@@ -7,11 +7,9 @@ Integrate with JSON Parser to Realm Object
 
 # Purpose
 
-My project need a JSON parser which can integrate with `Realm` class and back to JSON object with customizable transformer (basically nil to `NSNull`)
-
+My project need a JSON parser which can integrate with `Realm` class(easily) and back to JSON object with customizable transformer (basically nil to `NSNull`)
 I tried some of the high star JSON parser and write down my thought about them.
-
-My best choice is `Genome1.0`
+I prefer the `Genome1.0` but recently it upgraded to 2.0 with some syntax changed
 
 ## Basic Class
 
@@ -27,18 +25,18 @@ class BasicOptionalClass: Object {
   dynamic var note: String? = nil
   dynamic var value: Int = 0
 }
-
 ```
 
 ## [Genome](https://github.com/LoganWright/Genome)
 
 [GenomeObject1.0](https://github.com/jhihguan/JSON2Realm/blob/master/Genome1.0.md)
+
 [GenomeObject2.0](https://github.com/jhihguan/JSON2Realm/blob/master/JSON2RealmTests/GenomeRealm.swift)
 
 1. Need to use `final` on class since it use `Self` on protocol extension
 2. Genome will throw error while encounter parsing issue
 3. Have method for transform object to `JSON`
-4. Customizable JSON value representation (but need to conform to JsonConvertibleType, which made me hard to transform nil -> NSNull)
+4. Customizable JSON value representation
 
 ## [ObjectMapper](https://github.com/Hearst-DD/ObjectMapper)
 
@@ -72,3 +70,8 @@ link: [ObjectMapper+Realm](https://github.com/Hearst-DD/ObjectMapper#objectmappe
 
 1. Unbox can either return nil or throw error while encounter parsing issue
 2. Can not transform object to JSON
+
+## Next
+
+1. Nested Json Transformer
+

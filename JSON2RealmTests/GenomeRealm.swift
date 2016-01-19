@@ -50,11 +50,11 @@ final class OptionalGenomeClass: BasicOptionalClass, MappableObject {
     
     func sequence(map: Map) throws {
         try self.note ~> map["note"]
-            .transformToJson { (value: String?) -> String in
+            .transformToJson { (value: String?) -> Json in
                 if let text = value {
-                    return text
+                    return Json(text)
                 }
-                return "\(NSNull())"
+                return Json.NullValue
             }
         try self.distance.value ~> map["distance"]
         

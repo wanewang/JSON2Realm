@@ -111,8 +111,8 @@ class JSON2RealmTests: XCTestCase {
                 XCTFail("OptionalGenomeClass jsonRepresentation should success")
             }
             let json2 = try mappedBasic2.jsonRepresentation()
-            if let note = json2["note"]?.stringValue {
-                    XCTAssert(note == "\(NSNull())", "custom encode nil value should be parsed as NSNull")
+            if let note = json2["note"] {
+                    XCTAssert(note.isNull, "custom encode nil value should be parsed as NSNull")
             } else {
                 XCTFail("OptionalGenomeClass jsonRepresentation should success")
             }
