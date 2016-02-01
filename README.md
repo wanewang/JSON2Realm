@@ -37,6 +37,7 @@ class BasicOptionalClass: Object {
 2. Genome will throw error while encounter parsing issue
 3. Have method for transform object to `JSON`
 4. Customizable JSON value representation
+5. since Genome return Json Object, you have to use `.foundationDictionary` or `.anyValue` to get `Dictionary` or `AnyObject`
 
 ## [ObjectMapper](https://github.com/Hearst-DD/ObjectMapper)
 
@@ -74,4 +75,3 @@ link: [ObjectMapper+Realm](https://github.com/Hearst-DD/ObjectMapper#objectmappe
 ## Next
 
 1. Nested Json Transformer
-

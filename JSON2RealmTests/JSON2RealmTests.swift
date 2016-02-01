@@ -116,6 +116,21 @@ class JSON2RealmTests: XCTestCase {
             } else {
                 XCTFail("OptionalGenomeClass jsonRepresentation should success")
             }
+            
+            // ******
+            // since Genome return Json Object, you have to use .foundationDictionary or .anyValue to get Dictionary or AnyObject
+            if let dict1 = json1.foundationDictionary,
+                let note = dict1["note"] {
+                XCTAssert(!(note is NSNull), "custom encode non-nil value should not be NSNull")
+            } else {
+                XCTFail("OptionalGenomeClass jsonRepresentation should success")
+            }
+            if let dict2 = json2.foundationDictionary,
+                let note = dict2["note"] {
+                XCTAssert(note is NSNull, "custom encode nil value should be parsed as NSNull")
+            } else {
+                XCTFail("OptionalGenomeClass jsonRepresentation should success")
+            }
         } catch is MappingError {
             XCTFail("mapped object error")
         } catch {

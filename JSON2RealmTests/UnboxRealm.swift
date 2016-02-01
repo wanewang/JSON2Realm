@@ -10,7 +10,6 @@ import Foundation
 import Unbox
 
 class UnboxClass: BasicClass, Unboxable {
-    
     convenience required init(unboxer: Unboxer) {
         self.init()
         self.name = unboxer.unbox("name")
