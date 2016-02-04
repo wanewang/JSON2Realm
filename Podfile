@@ -10,6 +10,7 @@ pod 'ObjectMapper'
 pod 'Argo'
 pod 'Gloss'
 pod 'Unbox'
+pod 'Freddy'
 
 target 'JSON2RealmTests' do
 

@@ -1,5 +1,6 @@
 PODS:
   - Argo (2.2.0)
+  - Freddy (2.0.1)
   - Genome (2.0.1):
     - PureJsonSerializer (~> 1.0.0)
   - Gloss (0.6.2)
@@ -14,6 +15,7 @@ PODS:
 
 DEPENDENCIES:
   - Argo
+  - Freddy
   - Genome
   - Gloss
   - ObjectMapper
@@ -23,6 +25,7 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   Argo: 4f52a32b4cd913c204e5a45f420b3fccad3e3f24
+  Freddy: c4e5ff6cc28239097da3bcf08b2f114f2229e2ee
   Genome: 503add4d4156631f0b43587432148994f3f7e783
   Gloss: 22fd970682b5449e08e2f41c5087eefe7d7d084b
   ObjectMapper: 4143abed1dbd49b73d75092fe8fa1c88ed6434b7

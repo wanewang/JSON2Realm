@@ -13,6 +13,7 @@ import ObjectMapper
 import Gloss
 import Argo
 import Unbox
+import Freddy
 import RealmSwift
 import PureJsonSerializer
 
@@ -466,6 +467,87 @@ class JSON2RealmTests: XCTestCase {
         }
         
         let results = self.realm.objects(UnboxOptionalClass)
+        let test = Array(results)
+        XCTAssert(test.count == 3)
+        if let last = test.last {
+            XCTAssert(last.note == nil, "last object should be empty with all value nil")
+        } else {
+            XCTFail("last should not be nil")
+        }
+        if let first = test.first {
+            XCTAssert(first.note != nil, "first object note should not be nil")
+        } else {
+            XCTFail("last should not be nil")
+        }
+        
+    }
+    
+    func testFreddyClass() {
+        do {
+            let data1 = try NSJSONSerialization.dataWithJSONObject(self.basicDict1, options: .PrettyPrinted)
+            let json1 = try Freddy.JSON.init(data: data1)
+            let data2 = try NSJSONSerialization.dataWithJSONObject(self.basicDict2, options: .PrettyPrinted)
+            let json2 = try Freddy.JSON.init(data: data2)
+            let mappedBasic1 = try FreddyClass.init(json: json1)
+            let mappedBasic2 = try FreddyClass.init(json: json2)
+            let emptyBadic = FreddyClass.init()
+            try self.realm.write { () -> Void in
+                self.realm.add(mappedBasic1)
+                self.realm.add(mappedBasic2)
+                self.realm.add(emptyBadic)
+            }
+        } catch is Freddy.JSON.Error {
+            XCTFail("freddy mapped object error")
+        } catch {
+            XCTFail("realm save object error")
+        }
+        let results = self.realm.objects(FreddyClass)
+        let test = Array(results)
+        XCTAssert(test.count == 3)
+        if let last = test.last {
+            XCTAssert(last.name == "", "last object should be empty with default value")
+        } else {
+            XCTFail("last should not be nil")
+        }
+        if let first = test.first {
+            XCTAssert(first.birthday != "", "first object birthday should not be default value")
+        } else {
+            XCTFail("last should not be nil")
+        }
+    }
+    
+    func testFreddyOptionalClass() {
+        do {
+            let data1 = try NSJSONSerialization.dataWithJSONObject(self.basicOptionalDict1, options: .PrettyPrinted)
+            let jsonOption1 = try Freddy.JSON.init(data: data1)
+            let data2 = try NSJSONSerialization.dataWithJSONObject(self.basicOptionalDict2, options: .PrettyPrinted)
+            let jsonOption2 = try Freddy.JSON.init(data: data2)
+            
+            let mappedBasic1 = try OptionalFreddyClass.init(json: jsonOption1)
+            let mappedBasic2 = try OptionalFreddyClass.init(json: jsonOption2)
+            let emptyBadic = OptionalFreddyClass.init()
+            try self.realm.write { () -> Void in
+                self.realm.add(mappedBasic1)
+                self.realm.add(mappedBasic2)
+                self.realm.add(emptyBadic)
+            }
+          
+        } catch is Freddy.JSON.Error {
+            XCTFail("freddy parse object error")
+        } catch {
+            XCTFail("realm save object error")
+        }
+
+        do {
+            let data3 = try NSJSONSerialization.dataWithJSONObject(self.basicOptionalDict3, options: .PrettyPrinted)
+            let jsonOption3 = try Freddy.JSON.init(data: data3)
+            let _ = try OptionalFreddyClass.init(json: jsonOption3)
+            XCTFail("parse nil value to nonoptional attribute should throw error")
+        } catch {
+            // Freddy will throw error if marked non-optional whose json is nil
+        }
+//
+        let results = self.realm.objects(OptionalFreddyClass)
         let test = Array(results)
         XCTAssert(test.count == 3)
         if let last = test.last {

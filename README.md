@@ -72,6 +72,16 @@ link: [ObjectMapper+Realm](https://github.com/Hearst-DD/ObjectMapper#objectmappe
 1. Unbox can either return nil or throw error while encounter parsing issue
 2. Can not transform object to JSON
 
+## [Freddy](https://github.com/bignerdranch/Freddy)
+
+[FreddyObject](https://github.com/jhihguan/JSON2Realm/blob/master/JSON2RealmTests/FreddyRealm.swift)
+
+1. Freddy will throw error while encounter parsing issue
+2. Provided nested json object parser
+3. Can not init with `Dictionary`, I use `NSJSONSerialization` transform `AnyObject`, `Disctionary` to NSData
+4. Not yet have inline transformer, [issue](https://github.com/bignerdranch/Freddy/issues/118)
+5. Have method for transform object to `JSON`
+
 ## Next
 
 1. Nested Json Transformer

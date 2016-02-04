@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2060EC5F1C639D3800CDD335 /* FreddyRealm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2060EC5E1C639D3800CDD335 /* FreddyRealm.swift */; };
 		BA8BCF443D1B355917BB9FEE /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9BD7E08357DB8EDB33919C3 /* Pods.framework */; };
 		E322C2FE1C392FF90032317B /* ArgoRealm.swift in Sources */ = {isa = PBXBuildFile; fileRef = E322C2FD1C392FF90032317B /* ArgoRealm.swift */; };
 		E32E53891C2AF4DE00A30963 /* ObjectMapperRealm.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32E53881C2AF4DE00A30963 /* ObjectMapperRealm.swift */; };
@@ -34,6 +35,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2060EC5E1C639D3800CDD335 /* FreddyRealm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FreddyRealm.swift; sourceTree = "<group>"; };
 		97571CD84ACC12277F2C6C4C /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		D9BD7E08357DB8EDB33919C3 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E322C2FD1C392FF90032317B /* ArgoRealm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArgoRealm.swift; sourceTree = "<group>"; };
@@ -76,6 +78,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2060EC5D1C639D1700CDD335 /* Freddy */ = {
+			isa = PBXGroup;
+			children = (
+				2060EC5E1C639D3800CDD335 /* FreddyRealm.swift */,
+			);
+			name = Freddy;
+			sourceTree = "<group>";
+		};
 		C6D23F065CC5498C8507069D /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -176,6 +186,7 @@
 				E322C2FC1C392BC80032317B /* Argo */,
 				E32E53871C2AE4F900A30963 /* ObjectMapper */,
 				E37DB35E1C2AE4C400FFE862 /* Genome */,
+				2060EC5D1C639D1700CDD335 /* Freddy */,
 				E3C500BE1C29A4EB00789E53 /* JSON2RealmTests.swift */,
 				E3C500C01C29A4EB00789E53 /* Info.plist */,
 			);
@@ -346,6 +357,7 @@
 				E3C500BF1C29A4EB00789E53 /* JSON2RealmTests.swift in Sources */,
 				E3C447BA1C3D70B500CEE313 /* UnboxRealm.swift in Sources */,
 				E322C2FE1C392FF90032317B /* ArgoRealm.swift in Sources */,
+				2060EC5F1C639D3800CDD335 /* FreddyRealm.swift in Sources */,
 				E37DAB9D1C3A965400746D4D /* GlossRealm.swift in Sources */,
 				E32E53891C2AF4DE00A30963 /* ObjectMapperRealm.swift in Sources */,
 				E32E538B1C2AF55C00A30963 /* BasicRealm.swift in Sources */,
