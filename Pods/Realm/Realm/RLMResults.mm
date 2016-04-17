@@ -30,12 +30,39 @@
 #import "RLMUtil.hpp"
 
 #import "results.hpp"
+#import "impl/external_commit_helper.hpp"
 
 #import <objc/runtime.h>
 #import <objc/message.h>
 #import <realm/table_view.hpp>
 
 using namespace realm;
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wincomplete-implementation"
+@implementation RLMNotificationToken
+@end
+#pragma clang diagnostic pop
+
+@interface RLMCancellationToken : RLMNotificationToken
+@end
+
+@implementation RLMCancellationToken {
+    realm::AsyncQueryCancelationToken _token;
+}
+- (instancetype)initWithToken:(realm::AsyncQueryCancelationToken)token {
+    self = [super init];
+    if (self) {
+        _token = std::move(token);
+    }
+    return self;
+}
+
+- (void)stop {
+    _token = {};
+}
+
+@end
 
 static const int RLMEnumerationBufferSize = 16;
 
@@ -109,6 +136,7 @@ static const int RLMEnumerationBufferSize = 16;
         else if (_tableView.is_row_attached(index)) {
             accessor->_row = (*_objectSchema.table)[_tableView.get_source_ndx(index)];
         }
+        RLMInitializeSwiftAccessorGenerics(accessor);
         _strongBuffer[batchCount] = accessor;
         batchCount++;
     }
@@ -258,11 +286,23 @@ static inline void RLMResultsValidateInWriteTransaction(__unsafe_unretained RLMR
 
     Query query = translateErrors([&] { return _results.get_query(); });
     RLMUpdateQueryWithPredicate(&query, predicate, _realm.schema, _objectSchema);
-    size_t index = query.find();
-    if (index == realm::not_found) {
+
+    TableView table_view;
+    if (const auto& sort = _results.get_sort()) {
+        // A sort order is specified so we need to return the first match given that ordering.
+        table_view = query.find_all();
+        table_view.sort(sort.columnIndices, sort.ascending);
+    } else {
+        // No sort order is specified so we only need to find a single match.
+        // FIXME: We're only looking for a single object so we'd like to be able to use `Query::find`
+        // for this, but as of core v0.97.1 it gives incorrect results if the query is restricted
+        // to a link view (<https://github.com/realm/realm-core/issues/1565>).
+        table_view = query.find_all(0, -1, 1);
+    }
+    if (!table_view.size()) {
         return NSNotFound;
     }
-    return _results.index_of(index);
+    return _results.index_of(table_view.get_source_ndx(0));
 }
 
 - (id)objectAtIndex:(NSUInteger)index {
@@ -500,4 +540,31 @@ static inline void RLMResultsValidateInWriteTransaction(__unsafe_unretained RLMR
     return translateErrors([&] { return _results.get_tableview(); });
 }
 
+// The compiler complains about the method's argument type not matching due to
+// it not having the generic type attached, but it doesn't seem to be possible
+// to actually include the generic type
+// http://www.openradar.me/radar?id=6135653276319744
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wmismatched-parameter-types"
+- (RLMNotificationToken *)addNotificationBlock:(void (^)(RLMResults *results, NSError *error))block {
+    [_realm verifyNotificationsAreSupported];
+    auto token = _results.async([self, block](std::exception_ptr err) {
+        if (err) {
+            try {
+                rethrow_exception(err);
+            }
+            catch (...) {
+                NSError *error;
+                RLMRealmTranslateException(&error);
+                block(nil, error);
+            }
+        }
+        else {
+            block(self, nil);
+        }
+    });
+
+    return [[RLMCancellationToken alloc] initWithToken:std::move(token)];
+}
+#pragma clang diagnostic pop
 @end

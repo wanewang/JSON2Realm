@@ -168,7 +168,7 @@ void ObjectStore::verify_schema(Schema const& actual_schema, Schema& target_sche
         errors.insert(errors.end(), more_errors.begin(), more_errors.end());
     }
     if (errors.size()) {
-        throw SchemaValidationException(errors);
+        throw SchemaMismatchException(errors);
     }
 }
 
@@ -504,7 +504,7 @@ bool ObjectStore::is_empty(const Group *group) {
 InvalidSchemaVersionException::InvalidSchemaVersionException(uint64_t old_version, uint64_t new_version) :
     m_old_version(old_version), m_new_version(new_version)
 {
-    m_what = "Provided schema version " + std::to_string(old_version) + " is less than last set version " + std::to_string(new_version) + ".";
+    m_what = "Provided schema version " + std::to_string(new_version) + " is less than last set version " + std::to_string(old_version) + ".";
 }
 
 DuplicatePrimaryKeyValueException::DuplicatePrimaryKeyValueException(std::string const& object_type, Property const& property) :
@@ -513,9 +513,17 @@ DuplicatePrimaryKeyValueException::DuplicatePrimaryKeyValueException(std::string
     m_what = "Primary key property '" + property.name + "' has duplicate values after migration.";
 }
 
-
 SchemaValidationException::SchemaValidationException(std::vector<ObjectSchemaValidationException> const& errors) :
     m_validation_errors(errors)
+{
+    m_what = "Schema validation failed due to the following errors: ";
+    for (auto const& error : errors) {
+        m_what += std::string("\n- ") + error.what();
+    }
+}
+
+SchemaMismatchException::SchemaMismatchException(std::vector<ObjectSchemaValidationException> const& errors) :
+m_validation_errors(errors)
 {
     m_what ="Migration is required due to the following errors: ";
     for (auto const& error : errors) {

@@ -21,8 +21,16 @@ class ArgoClass: BasicClass {
 
 extension ArgoClass: Decodable {
     
-    static func create(name: String)(birthday: String)(age: Int) -> ArgoClass {
-        return ArgoClass.init(name: name, birthday: birthday, age: age)
+    static func create(name: String) -> String -> Int -> ArgoClass {
+        
+        return
+            { birthday in
+                { age in
+                    self.init(name: name, birthday: birthday, age: age)
+            }
+        }
+        
+        
     }
     // can't use curry(self.init)
     // will error with "Expression was too complext...
@@ -45,8 +53,13 @@ class ArgoOptionalClass: BasicOptionalClass {
 }
 
 extension ArgoOptionalClass: Decodable {
-    static func create(distance: Int?)(note: String?)(value: Int) -> ArgoOptionalClass {
-        return self.init(distance: distance, note: note, value: value)
+    static func create(distance: Int?) -> String? -> Int -> ArgoOptionalClass {
+        return
+            { note in
+                { value in
+                    return self.init(distance: distance, note: note, value: value)
+                }
+            }
     }
     static func decode(json: JSON) -> Decoded<ArgoOptionalClass> {
         return ArgoOptionalClass.create

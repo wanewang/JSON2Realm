@@ -16,7 +16,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////
 
-#include "transact_log_handler.hpp"
+#include "impl/transact_log_handler.hpp"
 
 #include "binding_context.hpp"
 
@@ -133,8 +133,9 @@ public:
     bool insert_substring(size_t, size_t, size_t, StringData) { return true; }
     bool erase_substring(size_t, size_t, size_t, size_t) { return true; }
     bool optimize_table() { return true; }
-    bool set_int_unique(size_t, size_t, int_fast64_t) { return true; }
-    bool set_string_unique(size_t, size_t, StringData) { return true; }
+    bool set_int_unique(size_t, size_t, size_t, int_fast64_t) { return true; }
+    bool set_string_unique(size_t, size_t, size_t, StringData) { return true; }
+    bool change_link_targets(size_t, size_t) { return true; }
 };
 
 // Extends TransactLogValidator to also track changes and report it to the
@@ -421,8 +422,8 @@ public:
     bool set_link(size_t col, size_t row, size_t, size_t) { return mark_dirty(row, col); }
     bool set_null(size_t col, size_t row) { return mark_dirty(row, col); }
     bool nullify_link(size_t col, size_t row, size_t) { return mark_dirty(row, col); }
-    bool set_int_unique(size_t col, size_t row, int_fast64_t) { return mark_dirty(row, col); }
-    bool set_string_unique(size_t col, size_t row, StringData) { return mark_dirty(row, col); }
+    bool set_int_unique(size_t col, size_t row, size_t, int_fast64_t) { return mark_dirty(row, col); }
+    bool set_string_unique(size_t col, size_t row, size_t, StringData) { return mark_dirty(row, col); }
     bool insert_substring(size_t col, size_t row, size_t, StringData) { return mark_dirty(row, col); }
     bool erase_substring(size_t col, size_t row, size_t, size_t) { return mark_dirty(row, col); }
 };
@@ -431,22 +432,21 @@ public:
 namespace realm {
 namespace _impl {
 namespace transaction {
-void advance(SharedGroup& sg, ClientHistory& history, BindingContext* context)
+void advance(SharedGroup& sg, BindingContext* context, SharedGroup::VersionID version)
 {
     TransactLogObserver(context, sg, [&](auto&&... args) {
-        LangBindHelper::advance_read(sg, history, std::move(args)...);
+        LangBindHelper::advance_read(sg, std::move(args)..., version);
     }, true);
 }
 
-void begin(SharedGroup& sg, ClientHistory& history, BindingContext* context,
-           bool validate_schema_changes)
+void begin(SharedGroup& sg, BindingContext* context, bool validate_schema_changes)
 {
     TransactLogObserver(context, sg, [&](auto&&... args) {
-        LangBindHelper::promote_to_write(sg, history, std::move(args)...);
+        LangBindHelper::promote_to_write(sg, std::move(args)...);
     }, validate_schema_changes);
 }
 
-void commit(SharedGroup& sg, ClientHistory&, BindingContext* context)
+void commit(SharedGroup& sg, BindingContext* context)
 {
     LangBindHelper::commit_and_continue_as_read(sg);
 
@@ -455,10 +455,10 @@ void commit(SharedGroup& sg, ClientHistory&, BindingContext* context)
     }
 }
 
-void cancel(SharedGroup& sg, ClientHistory& history, BindingContext* context)
+void cancel(SharedGroup& sg, BindingContext* context)
 {
     TransactLogObserver(context, sg, [&](auto&&... args) {
-        LangBindHelper::rollback_and_continue_as_read(sg, history, std::move(args)...);
+        LangBindHelper::rollback_and_continue_as_read(sg, std::move(args)...);
     }, false);
 }
 

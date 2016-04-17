@@ -307,7 +307,11 @@ void RLMSetErrorOrThrow(NSError *error, NSError **outError) {
         *outError = error;
     }
     else {
-        @throw RLMException(error.localizedDescription, @{ NSUnderlyingErrorKey: error });
+        NSString *msg = error.localizedDescription;
+        if (error.userInfo[NSFilePathErrorKey]) {
+            msg = [NSString stringWithFormat:@"%@: %@", error.userInfo[NSFilePathErrorKey], error.localizedDescription];
+        }
+        @throw RLMException(msg, @{NSUnderlyingErrorKey: error});
     }
 }
 
@@ -340,20 +344,8 @@ BOOL RLMIsDebuggerAttached()
     return (info.kp_proc.p_flag & P_TRACED) != 0;
 }
 
-BOOL RLMIsInRunLoop() {
-    // The main thread may not be in a run loop yet if we're called from
-    // something like `applicationDidFinishLaunching:`, but it presumably will
-    // be in the future
-    if ([NSThread isMainThread]) {
-        return true;
-    }
-    // Current mode indicates why the current callout from the runloop was made,
-    // and is null if a runloop callout isn't currently being processed
-    if (auto mode = CFRunLoopCopyCurrentMode(CFRunLoopGetCurrent())) {
-        CFRelease(mode);
-        return true;
-    }
-    return false;
+BOOL RLMIsRunningInPlayground() {
+    return [[NSBundle mainBundle].bundleIdentifier hasPrefix:@"com.apple.dt.playground."];
 }
 
 id RLMMixedToObjc(realm::Mixed const& mixed) {
