@@ -1,18 +1,7 @@
-//
-//  ArgoRealm.swift
-//  JSON2Realm
-//
-//  Created by Wane Wang on 2016/1/3.
-//  Copyright © 2016年 Wane Wang. All rights reserved.
-//
+Here's a backup for old Argo initialization without Curry
 
-import Foundation
-import Argo
-import Curry
-import RealmSwift
-
+```Swift
 class ArgoClass: BasicClass {
-    
     convenience required init(name: String, birthday: String, age: Int) {
         self.init()
         self.name = name
@@ -22,17 +11,28 @@ class ArgoClass: BasicClass {
 }
 
 extension ArgoClass: Decodable {
-    
+
+    static func create(name: String) -> String -> Int -> ArgoClass {
+        return
+            { birthday in
+                { age in
+                    self.init(name: name, birthday: birthday, age: age)
+            }
+        }
+    }
+
+    // can't use curry(self.init)
+    // will error with "Expression was too complext...
     static func decode(json: JSON) -> Decoded<ArgoClass> {
-        return curry(ArgoClass.init)
+        return ArgoClass.create
             <^> json <| "name"
             <*> json <| "birthday"
             <*> json <| "age"
+
     }
 }
 
 class ArgoOptionalClass: BasicOptionalClass {
-    
     convenience required init(distance: Int?, note: String?, value: Int) {
         self.init()
         self.distance.value = distance
@@ -42,11 +42,19 @@ class ArgoOptionalClass: BasicOptionalClass {
 }
 
 extension ArgoOptionalClass: Decodable {
-    
+    static func create(distance: Int?) -> String? -> Int -> ArgoOptionalClass {
+        return
+            { note in
+                { value in
+                    return self.init(distance: distance, note: note, value: value)
+                }
+            }
+    }
     static func decode(json: JSON) -> Decoded<ArgoOptionalClass> {
-        return curry(ArgoOptionalClass.init)
+        return ArgoOptionalClass.create
             <^> json <|? "distance"
             <*> json <|? "note"
             <*> json <| "value"
     }
 }
+```

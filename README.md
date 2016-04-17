@@ -51,9 +51,11 @@ link: [ObjectMapper+Realm](https://github.com/Hearst-DD/ObjectMapper#objectmappe
 
 ## [Argo](https://github.com/thoughtbot/Argo)
 
+[ArgoOld(withou Curry)](https://github.com/jhihguan/JSON2Realm/blob/master/ArgoOld.md)
+
 [ArgoObject](https://github.com/jhihguan/JSON2Realm/blob/master/JSON2RealmTests/ArgoRealm.swift)
 
-1. Cannot use `curry(self.init)` will error with `Expression was too complext...`
+1. Have to include [Curry](https://github.com/thoughtbot/Curry) or you will see brackets hell
 2. Argo will return nil object while encounter parsing issue
 3. Can not transform object to JSON
 
