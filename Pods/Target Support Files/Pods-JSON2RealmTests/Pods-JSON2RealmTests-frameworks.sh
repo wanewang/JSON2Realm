@@ -85,6 +85,7 @@ strip_invalid_archs() {
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "Pods-JSON2RealmTests/Argo.framework"
+  install_framework "Pods-JSON2RealmTests/Curry.framework"
   install_framework "Pods-JSON2RealmTests/Freddy.framework"
   install_framework "Pods-JSON2RealmTests/Genome.framework"
   install_framework "Pods-JSON2RealmTests/Gloss.framework"
@@ -96,6 +97,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "Pods-JSON2RealmTests/Argo.framework"
+  install_framework "Pods-JSON2RealmTests/Curry.framework"
   install_framework "Pods-JSON2RealmTests/Freddy.framework"
   install_framework "Pods-JSON2RealmTests/Genome.framework"
   install_framework "Pods-JSON2RealmTests/Gloss.framework"

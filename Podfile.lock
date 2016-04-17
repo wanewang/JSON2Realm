@@ -1,5 +1,6 @@
 PODS:
   - Argo (3.0.1)
+  - Curry (2.2.0)
   - Freddy (2.0.2)
   - Genome (2.0.4):
     - PureJsonSerializer (~> 1.0.0)
@@ -15,6 +16,7 @@ PODS:
 
 DEPENDENCIES:
   - Argo
+  - Curry
   - Freddy
   - Genome
   - Gloss
@@ -25,6 +27,7 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   Argo: 22c5d62b7967020a641468c91dc9488bea9523b8
+  Curry: c22d80fff7f5a4b1bbd531455c3e2dbb099658a3
   Freddy: e53713b8d5be02dbf5f4132c44d899d99eb09a6b
   Genome: ee22f71d87eefac0f622f77e75d1fef7f7fa12e7
   Gloss: 45eb51aaa6f2725341aec8d8caa65cfcc31f7f3b
